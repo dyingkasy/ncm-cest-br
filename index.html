@@ -1762,9 +1762,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    const normText = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
     function doFilter() {
       const raw = document.getElementById('search').value.trim();
-      const q = raw.toLowerCase();
+      const q = normText(raw);
       const { searchType, sortBy, cestOnly, activeCats } = getFilterState();
 
       let result = [...allNCMs];
@@ -1781,17 +1783,17 @@
           } else {
             result = result.filter(i =>
               i.codigo.replace(/\./g, '').includes(rawDigits) ||
-              i.descricao.toLowerCase().includes(q)
+              normText(i.descricao).includes(q)
             );
           }
         } else if (searchType === 'code') {
           result = result.filter(i => i.codigo.replace(/\./g, '').includes(rawDigits));
         } else if (searchType === 'desc') {
-          result = result.filter(i => i.descricao.toLowerCase().includes(q));
+          result = result.filter(i => normText(i.descricao).includes(q));
         } else {
           result = result.filter(i =>
             i.codigo.replace(/\./g, '').includes(rawDigits) ||
-            i.descricao.toLowerCase().includes(q)
+            normText(i.descricao).includes(q)
           );
         }
       }

@@ -1,0 +1,276 @@
+{
+  "description": "NCMs faltantes na BrasilAPI + descrições enriquecidas para códigos com descrição genérica",
+  "version": "1.0.0",
+  "ncms": [
+    {
+      "codigo": "16010010",
+      "descricao": "Enchidos (salsicha, linguiça, chouriço) e produtos similares de carne bovina - salsicha hot-dog, linguiça bovino",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "16010090",
+      "descricao": "Enchidos (salsicha, linguiça, mortadela) de outras carnes e miudezas - salsicha, mortadela, morcela",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "16021010",
+      "descricao": "Preparações homogeneizadas de fígado - patê de fígado, pasta de fígado",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "16021090",
+      "descricao": "Outras preparações homogeneizadas de carnes ou miudezas - hambúrgueres, hamburguers, hamburger, almôndegas, almondega, quibe, kibe",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21039010",
+      "descricao": "Molho de tomate e ketchup",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21041010",
+      "descricao": "Preparações para sopas e caldos - caldo de galinha, caldo de carne, sopa de frango",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "07020010",
+      "descricao": "Tomates frescos ou refrigerados - tomate de mesa",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "19011000",
+      "descricao": "Preparações para alimentação infantil - leite materno em pó, alimento para bebê, papinha infantil",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "04061000",
+      "descricao": "Queijo fresco (não curado ou não maturado) - queijo minas frescal, ricota, requeijão fresco",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21011100",
+      "descricao": "Extratos, essências e concentrados de café - café solúvel, café instantâneo, café liofilizado",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21041090",
+      "descricao": "Outras preparações para sopas, caldos, cremes e purês - sopa instantânea, mistura para sopa",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21069090",
+      "descricao": "Outras preparações alimentícias não especificadas - hambúrgueres, hamburguers, hamburger, preparações de carne moída, temperos compostos, condimentos, molhos prontos",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "19059090",
+      "descricao": "Outros produtos de padaria, pastelaria e confeitaria - pizzas, tortas, salgados, empadas, pastéis, massas preparadas",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "19059010",
+      "descricao": "Pão de forma, pão de leite, bisnaga - pão fatiado, pão de sanduíche",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "16023900",
+      "descricao": "Outras preparações e conservas de carne bovina - hambúrgueres, hamburguers, hamburger bovino, almôndegas, almondega de carne bovina, carne enlatada",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "22030000",
+      "descricao": "Cervejas de malte - cerveja lager, cerveja pilsen, cerveja artesanal, chope",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "22021000",
+      "descricao": "Águas minerais e gaseificadas com açúcar ou aromatizadas - refrigerante, soda, água tônica",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "02071200",
+      "descricao": "Galinhas e frangos inteiros congelados - frango inteiro congelado, galinha congelada, frango de corte congelado",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "02023000",
+      "descricao": "Carnes de animais bovinos, congeladas, desossadas - alcatra, picanha, contrafilé, acém, patinho congelados",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "03061710",
+      "descricao": "Camarões da espécie Penaeus vannamei, congelados - camarao branco, camarao de fazenda congelado, camarao vannamei",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "03061790",
+      "descricao": "Outros camarões congelados - camarao rosa, camarao sete-barbas, camarao, shrimp",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "19023000",
+      "descricao": "Outras massas alimentícias - macarrão instantâneo, miojo, macarrão cozido, macarrão pré-cozido",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "20052000",
+      "descricao": "Batatas preparadas ou conservadas (não em vinagre) - batata frita congelada, batata palha, chips de batata",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21069010",
+      "descricao": "Preparações do tipo utilizado para elaboração de bebidas - bases para refrigerante, xaropes de frutas, concentrados para bebidas",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "09021010",
+      "descricao": "Chá verde - chá verde em saquinhos, chá verde a granel",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "18063200",
+      "descricao": "Chocolate em tabletes ou barras - bombom, chocolate ao leite, chocolate amargo, chocolate branco",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "19041000",
+      "descricao": "Produtos à base de cereais obtidos por expansão ou torrefação - pipoca, salgadinho de milho, cereal matinal",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "20091900",
+      "descricao": "Outros sucos de laranja - suco de laranja não concentrado, suco de laranja pronto para beber",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "21061000",
+      "descricao": "Concentrados de proteínas e substâncias proteicas - proteína de soja texturizada, proteína vegetal, extrato proteico",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    },
+    {
+      "codigo": "15121100",
+      "descricao": "Óleo de girassol ou de açafroa - óleo de girassol refinado para cozinha",
+      "data_inicio": "2022-04-01",
+      "data_fim": "",
+      "tipo_ato": "",
+      "numero_ato": "",
+      "ano_ato": ""
+    }
+  ]
+}
