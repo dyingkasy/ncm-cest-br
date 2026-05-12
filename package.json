@@ -4,9 +4,12 @@
   "description": "Tabela NCM/CEST atualizada diariamente via BrasilAPI",
   "scripts": {
     "fetch": "node scripts/fetch.js",
+    "api": "node scripts/api-server.js",
     "dev": "npx serve ."
   },
   "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "node-fetch": "^3.3.2"
   },
   "type": "module",

@@ -745,15 +745,281 @@
     }
     .filter-active-label span { color: var(--accent); font-weight: 700; }
 
+    /* ─── ROW SELECTION ─── */
+    .td-check {
+      width: 36px !important;
+      padding: 0 8px 0 14px !important;
+      vertical-align: middle;
+    }
+    .td-check input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      display: block;
+    }
+    tbody tr.row-selected { background: rgba(0,208,132,0.07) !important; }
+
+    /* ─── COMPARE BAR ─── */
+    .compare-bar {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      padding: 10px 16px 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,208,132,0.15);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      white-space: nowrap;
+      animation: slideUp 0.2s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateX(-50%) translateY(16px); opacity: 0; }
+      to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    .btn-compare {
+      background: var(--accent);
+      border: none; border-radius: 100px;
+      color: #000; font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; font-weight: 700;
+      padding: 6px 16px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-compare:hover { background: var(--accent2); }
+    .btn-compare-clear {
+      background: transparent; border: none;
+      color: var(--muted); font-size: 18px;
+      cursor: pointer; padding: 0 2px;
+      transition: color 0.15s; line-height: 1;
+    }
+    .btn-compare-clear:hover { color: var(--red); }
+
+    /* ─── COMPARE MODAL ─── */
+    .compare-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .compare-modal-overlay.open { opacity: 1; visibility: visible; }
+    .compare-modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      width: 100%; max-width: 1000px;
+      max-height: 85vh;
+      display: flex; flex-direction: column;
+      transform: scale(0.94);
+      transition: transform 0.2s ease;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    }
+    .compare-modal-overlay.open .compare-modal { transform: scale(1); }
+    .compare-modal-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .compare-modal-header h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .compare-modal-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-export {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2); border-radius: 6px;
+      color: var(--muted); font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; padding: 6px 12px; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-export:hover { border-color: var(--accent); color: var(--accent); }
+    .compare-cols {
+      display: flex; gap: 0;
+      overflow-x: auto; overflow-y: auto;
+      flex: 1;
+    }
+    .cmp-col {
+      flex: 0 0 240px; min-width: 200px;
+      padding: 18px 16px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .cmp-col:last-child { border-right: none; }
+    .cmp-col:nth-child(even) { background: rgba(255,255,255,0.02); }
+    .cmp-remove {
+      position: absolute; top: 10px; right: 10px;
+      background: transparent; border: 1px solid var(--border2);
+      border-radius: 4px; color: var(--muted);
+      font-size: 13px; width: 22px; height: 22px;
+      cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cmp-remove:hover { border-color: var(--red); color: var(--red); }
+    .cmp-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--code); letter-spacing: 0.06em;
+      margin-bottom: 8px; padding-right: 28px;
+    }
+    .cmp-desc { font-size: 12px; color: var(--text); line-height: 1.4; margin-bottom: 12px; }
+    .cmp-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 5px; margin-top: 12px;
+    }
+    .cmp-cest {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--cest);
+      margin-bottom: 3px; line-height: 1.4;
+    }
+    .cmp-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: var(--text);
+    }
+
+    /* ─── VALIDATOR ─── */
+    .validator-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .validator-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      cursor: pointer; user-select: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; letter-spacing: 0.05em;
+      color: var(--muted);
+      transition: background 0.15s;
+    }
+    .validator-header:hover { background: rgba(255,255,255,0.03); }
+    .validator-header .vh-title { color: var(--text); font-size: 13px; display: flex; align-items: center; gap: 8px; }
+    .validator-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .validator-body.open {
+      max-height: 700px;
+      border-top: 1px solid var(--border);
+    }
+    .validator-inner { padding: 16px; }
+    .validator-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+    #val-input {
+      flex: 1;
+      background: var(--bg); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 10px 14px;
+      color: var(--text); font-family: 'JetBrains Mono', monospace;
+      font-size: 15px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.08em;
+    }
+    #val-input:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(0,208,132,0.1); }
+    .btn-validate {
+      background: var(--accent); border: none; border-radius: 8px;
+      color: #000; font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; font-weight: 700;
+      padding: 10px 22px; cursor: pointer;
+      transition: background 0.15s; white-space: nowrap;
+    }
+    .btn-validate:hover { background: var(--accent2); }
+    .val-status {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .val-status.ok { color: var(--accent); }
+    .val-status.err { color: var(--red); }
+    .val-open-btn {
+      background: transparent; border: 1px solid var(--accent);
+      border-radius: 6px; color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; padding: 3px 10px;
+      cursor: pointer; margin-left: 6px;
+      transition: all 0.15s;
+    }
+    .val-open-btn:hover { background: rgba(0,208,132,0.1); }
+    .val-found-card {
+      background: rgba(0,208,132,0.06);
+      border: 1px solid rgba(0,208,132,0.2);
+      border-radius: 8px; padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+    .val-found-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--code); margin-bottom: 4px;
+    }
+    .val-found-desc { font-size: 13px; color: var(--text); }
+    .val-similar {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border2);
+      border-radius: 8px; padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    .val-similar-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .val-similar-item {
+      display: flex; align-items: baseline;
+      gap: 10px; padding: 6px 8px;
+      border-radius: 6px; cursor: pointer;
+      transition: background 0.1s;
+    }
+    .val-similar-item:hover { background: rgba(0,208,132,0.07); }
+    .val-s-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; font-weight: 700;
+      color: var(--code); white-space: nowrap;
+    }
+    .val-s-desc { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .val-history-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .val-history-header {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 8px;
+    }
+    .val-hist-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 8px; border-radius: 6px;
+      cursor: pointer; transition: background 0.1s;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: var(--text);
+    }
+    .val-hist-item:hover { background: rgba(255,255,255,0.04); }
+    .val-hist-item.valid .val-hist-icon { color: var(--accent); }
+    .val-hist-item.invalid .val-hist-icon { color: var(--red); }
+    .val-hist-icon { font-size: 12px; flex-shrink: 0; }
+    .val-hist-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+    .val-hist-rm { background: transparent; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 0 4px; flex-shrink: 0; }
+    .val-hist-rm:hover { color: var(--red); }
+
     @media (max-width: 640px) {
       header { padding: 36px 20px 28px; }
       .header-title { flex-direction: column; gap: 10px; }
       .logo-brand { height: 36px; }
       .td-ato { display: none; }
+      .td-check { display: none; }
       .modal { padding: 24px 20px; }
       .modal-code { font-size: 2rem; }
       .modal-fields { grid-template-columns: 1fr; }
       .filter-categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .compare-cols { flex-direction: column; }
+      .cmp-col { flex: none; border-right: none; border-bottom: 1px solid var(--border); }
     }
   </style>
 </head>
@@ -857,6 +1123,33 @@
       </div>
     </div>
 
+    <!-- VALIDATOR -->
+    <div class="validator-wrap">
+      <div class="validator-header" onclick="toggleValidator()">
+        <span class="vh-title">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+          Validador NCM
+        </span>
+        <span id="validator-toggle">▼</span>
+      </div>
+      <div class="validator-body" id="validator-body">
+        <div class="validator-inner">
+          <div class="validator-input-row">
+            <input type="text" id="val-input" placeholder="Digite o NCM (ex: 84713012 ou 8471.30.12)" maxlength="12" onkeydown="if(event.key==='Enter')validateNCM()" />
+            <button class="btn-validate" onclick="validateNCM()">Validar</button>
+          </div>
+          <div id="val-result"></div>
+          <div class="val-history-section">
+            <div class="val-history-header">
+              <span class="filter-section-title">Histórico (últimas 10)</span>
+              <button class="btn-clear-filters" onclick="valHistory=[];renderValHistory()">Limpar</button>
+            </div>
+            <div id="val-history"><span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px">Nenhuma validação ainda</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="content">
       <div class="state-box">
         <div class="spinner"></div>
@@ -872,6 +1165,28 @@
     Atualizado automaticamente via GitHub Actions &middot;
     <a href="https://github.com/dyingkasy/ncm-cest-br" target="_blank" rel="noopener">Ver no GitHub</a>
   </footer>
+
+  <!-- COMPARE BAR -->
+  <div class="compare-bar" id="compare-bar" style="display:none">
+    <span id="compare-count">0 NCMs selecionados</span>
+    <button class="btn-compare" onclick="openCompareModal()">⚖ Comparar</button>
+    <button class="btn-compare-clear" onclick="clearSelection()" title="Limpar seleção">✕</button>
+  </div>
+
+  <!-- COMPARE MODAL -->
+  <div class="compare-modal-overlay" id="compare-modal-overlay">
+    <div class="compare-modal">
+      <div class="compare-modal-header">
+        <h3>Comparação de NCMs</h3>
+        <div class="compare-modal-actions">
+          <button class="btn-export" onclick="exportComparison('csv')">↓ CSV</button>
+          <button class="btn-export" onclick="exportComparison('json')">↓ JSON</button>
+          <button class="modal-close" onclick="closeCompareModal()" aria-label="Fechar">✕</button>
+        </div>
+      </div>
+      <div class="compare-cols" id="compare-cols"></div>
+    </div>
+  </div>
 
   <!-- MODAL -->
   <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-ncm-code">
@@ -931,6 +1246,222 @@
     let filtered = [];
     let currentPage = 1;
     let currentNCM = null;
+
+    /* ─── SELECTION + COMPARE ─── */
+    const selectedNCMs = new Set();
+
+    function toggleSelect(digits) {
+      if (selectedNCMs.has(digits)) {
+        selectedNCMs.delete(digits);
+      } else if (selectedNCMs.size < 5) {
+        selectedNCMs.add(digits);
+      }
+      const cb = document.querySelector(`[data-select-ncm="${digits}"]`);
+      if (cb) {
+        cb.checked = selectedNCMs.has(digits);
+        cb.closest('tr')?.classList.toggle('row-selected', cb.checked);
+      }
+      updateCompareBar();
+    }
+
+    function updateCompareBar() {
+      const bar = document.getElementById('compare-bar');
+      const n = selectedNCMs.size;
+      if (n >= 2) {
+        bar.style.display = 'flex';
+        document.getElementById('compare-count').textContent = `${n} NCM${n > 1 ? 's' : ''} selecionado${n > 1 ? 's' : ''}`;
+      } else {
+        bar.style.display = 'none';
+      }
+    }
+
+    function clearSelection() {
+      selectedNCMs.clear();
+      updateCompareBar();
+      document.querySelectorAll('[data-select-ncm]').forEach(cb => {
+        cb.checked = false;
+        cb.closest('tr')?.classList.remove('row-selected');
+      });
+    }
+
+    function openCompareModal() {
+      const items = [...selectedNCMs].map(code =>
+        allNCMs.find(i => i.codigo.replace(/\./g, '') === code)
+      ).filter(Boolean);
+
+      document.getElementById('compare-cols').innerHTML = items.map(item => {
+        const cests = findCEST(item.codigo);
+        const cestHtml = cests.length
+          ? cests.slice(0, 3).map(c => `<div class="cmp-cest">${fmtCEST(c.codigo)} — ${c.descricao.slice(0, 45)}</div>`).join('')
+          : `<span style="color:var(--muted);font-size:12px">Sem CEST vinculado</span>`;
+        const code = item.codigo.replace(/\./g, '');
+        return `
+          <div class="cmp-col">
+            <button class="cmp-remove" onclick="removeFromCompare('${code}')">✕</button>
+            <div class="cmp-code">${item.codigo}</div>
+            <div class="cmp-desc">${item.descricao}</div>
+            <div class="cmp-label">Data de Início</div>
+            <div class="cmp-val">${fmtDate(item.data_inicio)}</div>
+            <div class="cmp-label">CEST</div>
+            <div>${cestHtml}</div>
+          </div>`;
+      }).join('');
+
+      document.getElementById('compare-modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCompareModal() {
+      document.getElementById('compare-modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function removeFromCompare(code) {
+      selectedNCMs.delete(code);
+      const cb = document.querySelector(`[data-select-ncm="${code}"]`);
+      if (cb) { cb.checked = false; cb.closest('tr')?.classList.remove('row-selected'); }
+      updateCompareBar();
+      if (selectedNCMs.size === 0) { closeCompareModal(); return; }
+      openCompareModal();
+    }
+
+    function exportComparison(fmt) {
+      const items = [...selectedNCMs].map(code =>
+        allNCMs.find(i => i.codigo.replace(/\./g, '') === code)
+      ).filter(Boolean);
+
+      if (fmt === 'csv') {
+        const rows = items.map(i => {
+          const cests = findCEST(i.codigo).map(c => fmtCEST(c.codigo)).join('|');
+          return `"${i.codigo}","${i.codigo.replace(/\./g,'')}","${i.descricao.replace(/"/g,'""')}","${fmtDate(i.data_inicio)}","${cests}"`;
+        });
+        dlFile(['Código,Dígitos,Descrição,Data Início,CEST', ...rows].join('\n'), 'comparacao-ncm.csv', 'text/csv');
+      } else {
+        const data = items.map(i => ({
+          codigo: i.codigo.replace(/\./g, ''),
+          codigo_fmt: i.codigo,
+          descricao: i.descricao,
+          data_inicio: i.data_inicio,
+          cest: findCEST(i.codigo).map(c => ({ codigo: c.codigo, descricao: c.descricao }))
+        }));
+        dlFile(JSON.stringify(data, null, 2), 'comparacao-ncm.json', 'application/json');
+      }
+    }
+
+    function dlFile(content, name, type) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([content], { type }));
+      a.download = name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    document.getElementById('compare-modal-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('compare-modal-overlay')) closeCompareModal();
+    });
+
+    /* ─── VALIDATOR ─── */
+    let valHistory = [];
+
+    function toggleValidator() {
+      const body = document.getElementById('validator-body');
+      const icon = document.getElementById('validator-toggle');
+      body.classList.toggle('open');
+      icon.textContent = body.classList.contains('open') ? '▲' : '▼';
+    }
+
+    function validateNCM() {
+      const raw    = document.getElementById('val-input').value.trim();
+      const digits = raw.replace(/\./g, '').replace(/\D/g, '');
+      const result = document.getElementById('val-result');
+
+      if (!digits) { result.innerHTML = ''; return; }
+
+      if (!/^\d+$/.test(digits)) {
+        result.innerHTML = `<div class="val-status err"><span>✗</span> Código inválido — use apenas números.</div>`;
+        return;
+      }
+
+      if (digits.length !== 8) {
+        const similar = allNCMs.filter(i =>
+          i.codigo.replace(/\./g, '').startsWith(digits.slice(0, Math.min(digits.length, 6)))
+        ).slice(0, 6);
+
+        const simHtml = similar.length
+          ? `<div class="val-similar">
+              <div class="val-similar-title">NCMs similares</div>
+              ${similar.map(n => {
+                const nc = n.codigo.replace(/\./g,'');
+                return `<div class="val-similar-item" onclick="openModal(allNCMs.find(i=>i.codigo.replace(/\\./g,'')==='${nc}'))">
+                  <span class="val-s-code">${n.codigo}</span>
+                  <span class="val-s-desc">${n.descricao.slice(0, 55)}</span>
+                </div>`;
+              }).join('')}
+            </div>` : '';
+
+        result.innerHTML = `<div class="val-status err"><span>✗</span> NCM incompleto — ${digits.length} dígito${digits.length!==1?'s':''}. Precisam ser 8.</div>${simHtml}`;
+        addValHistory(digits, 'invalid', `${digits} — incompleto (${digits.length} dígitos)`);
+        return;
+      }
+
+      const found = allNCMs.find(i => i.codigo.replace(/\./g, '') === digits);
+      if (found) {
+        const nc = found.codigo.replace(/\./g,'');
+        result.innerHTML = `
+          <div class="val-status ok">
+            <span>✓</span> NCM válido encontrado
+            <button class="val-open-btn" onclick="openModal(allNCMs.find(i=>i.codigo.replace(/\\./g,'')==='${nc}'))">Abrir detalhes →</button>
+          </div>
+          <div class="val-found-card">
+            <div class="val-found-code">${found.codigo}</div>
+            <div class="val-found-desc">${found.descricao}</div>
+          </div>`;
+        addValHistory(digits, 'valid', `${found.codigo} — ${found.descricao.slice(0,45)}`);
+      } else {
+        const similar = allNCMs.filter(i =>
+          i.codigo.replace(/\./g,'').startsWith(digits.slice(0, 6))
+        ).slice(0, 6);
+
+        const simHtml = similar.length
+          ? `<div class="val-similar">
+              <div class="val-similar-title">NCMs similares</div>
+              ${similar.map(n => {
+                const nc = n.codigo.replace(/\./g,'');
+                return `<div class="val-similar-item" onclick="openModal(allNCMs.find(i=>i.codigo.replace(/\\./g,'')==='${nc}'))">
+                  <span class="val-s-code">${n.codigo}</span>
+                  <span class="val-s-desc">${n.descricao.slice(0, 55)}</span>
+                </div>`;
+              }).join('')}
+            </div>` : '';
+
+        const fmt8 = `${digits.slice(0,4)}.${digits.slice(4,6)}.${digits.slice(6,8)}`;
+        result.innerHTML = `<div class="val-status err"><span>✗</span> NCM "${fmt8}" não encontrado na tabela.</div>${simHtml}`;
+        addValHistory(digits, 'invalid', `${fmt8} — não encontrado`);
+      }
+    }
+
+    function addValHistory(digits, status, label) {
+      valHistory.unshift({ digits, status, label });
+      if (valHistory.length > 10) valHistory.pop();
+      renderValHistory();
+    }
+
+    function renderValHistory() {
+      const el = document.getElementById('val-history');
+      if (!valHistory.length) {
+        el.innerHTML = '<span style="color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:12px">Nenhuma validação ainda</span>';
+        return;
+      }
+      el.innerHTML = valHistory.map((h, i) => {
+        const isValid = h.status === 'valid';
+        const onclick = isValid ? `openModal(allNCMs.find(i=>i.codigo.replace(/\\./g,'')==='${h.digits}'))` : '';
+        return `<div class="val-hist-item ${h.status}" ${onclick ? `onclick="${onclick}"` : ''}>
+          <span class="val-hist-icon">${isValid ? '✓' : '✗'}</span>
+          <span class="val-hist-label">${h.label}</span>
+          <button class="val-hist-rm" onclick="event.stopPropagation();valHistory.splice(${i},1);renderValHistory()">×</button>
+        </div>`;
+      }).join('');
+    }
 
     const CATEGORIES = [
       { id: '01-05', min: 1,  max: 5  },
@@ -1169,8 +1700,13 @@
 
       const rows = slice.map((item, idx) => {
         const globalIdx = start + idx;
+        const digits = item.codigo.replace(/\./g, '');
+        const isSel = selectedNCMs.has(digits);
         return `
-        <tr onclick="openModal(window.__ncmFiltered[${globalIdx}])" title="Ver detalhes do NCM ${item.codigo}">
+        <tr class="${isSel ? 'row-selected' : ''}" onclick="if(event.target.type!=='checkbox')openModal(window.__ncmFiltered[${globalIdx}])" title="Ver detalhes do NCM ${item.codigo}">
+          <td class="td-check" onclick="event.stopPropagation()">
+            <input type="checkbox" data-select-ncm="${digits}" ${isSel ? 'checked' : ''} onchange="toggleSelect('${digits}')">
+          </td>
           <td class="td-code">${hl(item.codigo, q)}</td>
           <td class="td-desc">${hl(item.descricao, q)}</td>
           <td class="td-ato">${item.tipo_ato ? `${item.tipo_ato} ${item.numero_ato}/${item.ano_ato}` : '—'}</td>
@@ -1182,6 +1718,7 @@
           <table>
             <thead>
               <tr>
+                <th class="td-check"></th>
                 <th>Código NCM</th>
                 <th>Descrição</th>
                 <th>Ato</th>
