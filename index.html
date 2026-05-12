@@ -20,6 +20,8 @@
       --accent2:  #00a865;
       --code:     #f7c948;
       --red:      #ff5252;
+      --cest:     #a855f7;
+      --cest2:    #7c3aed;
       --radius:   10px;
     }
 
@@ -499,6 +501,108 @@
       background: rgba(255,255,255,0.07);
     }
 
+    /* ─── CEST SECTION ─── */
+    .modal-cest-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .modal-cest-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .modal-cest-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(168,85,247,0.12);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cest);
+    }
+    .modal-cest-badge .cest-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--cest);
+    }
+
+    .cest-card {
+      background: rgba(168,85,247,0.06);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .cest-card:last-child { margin-bottom: 0; }
+
+    .cest-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cest);
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .cest-desc {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .cest-segment {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cest);
+      opacity: 0.7;
+    }
+
+    .btn-copy-cest {
+      width: 100%;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 6px;
+      color: var(--cest);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .btn-copy-cest:hover {
+      background: rgba(168,85,247,0.2);
+      border-color: var(--cest);
+    }
+    .btn-copy-cest.copied {
+      background: rgba(168,85,247,0.25);
+      border-color: var(--cest);
+    }
+
+    .cest-empty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 0;
+    }
+
     @media (max-width: 640px) {
       header { padding: 36px 20px 28px; }
       .td-ato { display: none; }
@@ -587,7 +691,17 @@
           <span class="modal-field-value" id="modal-data-fim"></span>
         </div>
       </div>
-      <div class="modal-actions">
+      <!-- CEST SECTION -->
+      <hr class="modal-cest-divider" />
+      <div class="modal-cest-header">
+        <div class="modal-cest-badge">
+          <span class="cest-dot"></span>
+          CEST — Substituição Tributária
+        </div>
+      </div>
+      <div id="modal-cest-content"></div>
+
+      <div class="modal-actions" style="margin-top:20px">
         <button class="btn-copy" id="btn-copy">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
@@ -602,9 +716,35 @@
   <script>
     const PER_PAGE = 100;
     let allNCMs = [];
+    let allCESTs = [];
     let filtered = [];
     let currentPage = 1;
     let currentNCM = null;
+
+    function findCEST(ncmCode) {
+      const digits = ncmCode.replace(/\./g, '');
+      return allCESTs.filter(c =>
+        c.ncm_prefixos && c.ncm_prefixos.some(p => digits.startsWith(p))
+      );
+    }
+
+    function fmtCEST(codigo) {
+      if (codigo.length !== 7) return codigo;
+      return `${codigo.slice(0,2)}.${codigo.slice(2,5)}.${codigo.slice(5,7)}`;
+    }
+
+    function copyCEST(codigo) {
+      navigator.clipboard.writeText(codigo).then(() => {
+        const btn = document.querySelector(`[data-cest-copy="${codigo}"]`);
+        if (!btn) return;
+        btn.classList.add('copied');
+        btn.innerHTML = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copiado!`;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar CEST ${fmtCEST(codigo)}`;
+        }, 2000);
+      });
+    }
 
     function isValid8Digit(code) {
       return /^\d{8}$/.test(code.replace(/\./g, ''));
@@ -652,6 +792,26 @@
       setField('modal-ano-ato', item.ano_ato);
       setField('modal-data-inicio', fmtDate(item.data_inicio));
       setField('modal-data-fim', item.data_fim ? fmtDate(item.data_fim) : null);
+
+      // Render CEST
+      const cests = findCEST(item.codigo);
+      const cestEl = document.getElementById('modal-cest-content');
+      if (cests.length === 0) {
+        cestEl.innerHTML = `<div class="cest-empty"><span>○</span> Sem CEST vinculado para este NCM</div>`;
+      } else {
+        cestEl.innerHTML = cests.slice(0, 5).map(c => `
+          <div class="cest-card">
+            <div class="cest-code">${fmtCEST(c.codigo)}</div>
+            <div class="cest-desc">${c.descricao}</div>
+            <div class="cest-segment">${c.segmento}</div>
+            <button class="btn-copy-cest" data-cest-copy="${c.codigo}" onclick="copyCEST('${c.codigo}')">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              Copiar CEST ${fmtCEST(c.codigo)}
+            </button>
+          </div>`).join('');
+      }
 
       const copyBtn = document.getElementById('btn-copy');
       copyBtn.innerHTML = `
@@ -811,9 +971,17 @@
 
     async function init() {
       try {
-        const res = await fetch('data/ncm.json');
-        if (!res.ok) throw new Error('Arquivo não encontrado');
-        const data = await res.json();
+        const [ncmRes, cestRes] = await Promise.all([
+          fetch('data/ncm.json'),
+          fetch('data/cest.json')
+        ]);
+        if (!ncmRes.ok) throw new Error('NCM não encontrado');
+        const data = await ncmRes.json();
+
+        if (cestRes.ok) {
+          const cestData = await cestRes.json();
+          allCESTs = cestData.cest || [];
+        }
 
         allNCMs = (data.ncms || []).filter(i => isValid8Digit(i.codigo));
         filtered = [...allNCMs];
