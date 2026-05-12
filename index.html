@@ -774,7 +774,7 @@
       currentNCM = item;
 
       document.getElementById('modal-ncm-code').textContent = item.codigo;
-      document.getElementById('modal-ncm-desc').textContent = item.descricao || '—';
+      document.getElementById('modal-ncm-desc').innerHTML = item.descricao || '—';
 
       const setField = (id, val) => {
         const el = document.getElementById(id);
