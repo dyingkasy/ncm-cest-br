@@ -1,0 +1,16 @@
+{
+  "name": "ncm-cest-br",
+  "version": "1.0.0",
+  "description": "Tabela NCM/CEST atualizada diariamente via BrasilAPI",
+  "scripts": {
+    "fetch": "node scripts/fetch.js",
+    "dev": "npx serve ."
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,53 @@
+name: Atualizar NCM Diariamente
+
+on:
+  schedule:
+    # Executa todo dia às 06:00 UTC (03:00 BRT)
+    - cron: "0 6 * * *"
+  workflow_dispatch: # Permite rodar manualmente pelo GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  update-ncm:
+    runs-on: ubuntu-latest
+    name: Buscar e atualizar tabela NCM
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar script de atualização NCM
+        run: node scripts/fetch.js
+
+      - name: Verificar se há mudanças
+        id: check_changes
+        run: |
+          if git diff --quiet data/ncm.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit e push dos dados atualizados
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/ncm.json
+          git commit -m "chore: atualizar tabela NCM - $(date -u '+%d/%m/%Y %H:%M') UTC"
+          git push
+
+      - name: Nenhuma mudança detectada
+        if: steps.check_changes.outputs.changed == 'false'
+        run: echo "✅ Tabela NCM já está atualizada. Nenhum commit necessário."
