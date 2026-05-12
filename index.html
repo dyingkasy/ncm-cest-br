@@ -607,7 +607,7 @@
     let currentNCM = null;
 
     function isValid8Digit(code) {
-      return /^\d{8}$/.test(code);
+      return /^\d{8}$/.test(code.replace(/\./g, ''));
     }
 
     function hl(text, query) {
@@ -794,9 +794,12 @@
       if (!q) {
         filtered = [...allNCMs];
       } else {
-        const isNumericQuery = /^\d+$/.test(raw);
+        const isNumericQuery = /^[\d.]+$/.test(raw);
         if (isNumericQuery) {
-          filtered = allNCMs.filter(i => i.codigo.includes(raw));
+          const rawDigits = raw.replace(/\./g, '');
+          filtered = allNCMs.filter(i =>
+            i.codigo.includes(raw) || i.codigo.replace(/\./g, '').includes(rawDigits)
+          );
         } else {
           filtered = allNCMs.filter(i => i.descricao.toLowerCase().includes(q));
         }
