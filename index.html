@@ -233,9 +233,10 @@
     tbody tr {
       border-bottom: 1px solid var(--border);
       transition: background 0.15s;
+      cursor: pointer;
     }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody tr:hover { background: rgba(0,208,132,0.05); }
 
     td {
       padding: 11px 16px;
@@ -331,9 +332,179 @@
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      transform: scale(0.92);
+      transition: transform 0.2s ease;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,208,132,0.08);
+    }
+    .modal-overlay.open .modal {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      background: rgba(255,82,82,0.12);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .modal-code-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .modal-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--code);
+      letter-spacing: 0.12em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .modal-desc {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .modal-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .modal-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .modal-field-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .modal-field-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .modal-field-value.empty { color: var(--muted); font-weight: 400; }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-copy {
+      flex: 1;
+      background: rgba(0,208,132,0.1);
+      border: 1px solid rgba(0,208,132,0.3);
+      border-radius: 8px;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-copy:hover {
+      background: rgba(0,208,132,0.2);
+      border-color: var(--accent);
+    }
+    .btn-copy.copied {
+      background: rgba(0,208,132,0.25);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-modal-close {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-modal-close:hover {
+      border-color: var(--border2);
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+    }
+
     @media (max-width: 640px) {
       header { padding: 36px 20px 28px; }
       .td-ato { display: none; }
+      .modal { padding: 24px 20px; }
+      .modal-code { font-size: 2rem; }
+      .modal-fields { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -366,7 +537,7 @@
         <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input type="text" id="search" placeholder="Pesquisar por código NCM ou descrição…" autocomplete="off" />
+        <input type="text" id="search" placeholder="Pesquisar por código NCM (8 dígitos) ou descrição…" autocomplete="off" />
       </div>
       <div class="result-count" id="result-count"></div>
     </div>
@@ -384,19 +555,72 @@
   <footer>
     Dados fornecidos por <a href="https://brasilapi.com.br" target="_blank" rel="noopener">BrasilAPI</a> &mdash;
     Atualizado automaticamente via GitHub Actions &middot;
-    <a href="https://github.com" target="_blank" rel="noopener">Ver no GitHub</a>
+    <a href="https://github.com/dyingkasy/ncm-cest-br" target="_blank" rel="noopener">Ver no GitHub</a>
   </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-ncm-code">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
+      <div class="modal-code-label">Código NCM</div>
+      <div class="modal-code" id="modal-ncm-code"></div>
+      <div class="modal-desc" id="modal-ncm-desc"></div>
+      <div class="modal-fields">
+        <div class="modal-field">
+          <span class="modal-field-label">Tipo de Ato</span>
+          <span class="modal-field-value" id="modal-tipo-ato"></span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-field-label">Número do Ato</span>
+          <span class="modal-field-value" id="modal-numero-ato"></span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-field-label">Ano do Ato</span>
+          <span class="modal-field-value" id="modal-ano-ato"></span>
+        </div>
+        <div class="modal-field">
+          <span class="modal-field-label">Data de Início</span>
+          <span class="modal-field-value" id="modal-data-inicio"></span>
+        </div>
+        <div class="modal-field" id="modal-data-fim-wrap">
+          <span class="modal-field-label">Data de Fim</span>
+          <span class="modal-field-value" id="modal-data-fim"></span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-copy" id="btn-copy">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          Copiar código NCM
+        </button>
+        <button class="btn-modal-close" id="btn-modal-close">Fechar</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const PER_PAGE = 100;
     let allNCMs = [];
     let filtered = [];
     let currentPage = 1;
+    let currentNCM = null;
+
+    function isValid8Digit(code) {
+      return /^\d{8}$/.test(code);
+    }
 
     function hl(text, query) {
       if (!query) return text;
       const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+    }
+
+    function fmtDate(dateStr) {
+      if (!dateStr) return '—';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
     function fmt(dateStr) {
@@ -405,6 +629,85 @@
       return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
     }
 
+    /* ─── MODAL ─── */
+    function openModal(item) {
+      currentNCM = item;
+
+      document.getElementById('modal-ncm-code').textContent = item.codigo;
+      document.getElementById('modal-ncm-desc').textContent = item.descricao || '—';
+
+      const setField = (id, val) => {
+        const el = document.getElementById(id);
+        if (val) {
+          el.textContent = val;
+          el.classList.remove('empty');
+        } else {
+          el.textContent = '—';
+          el.classList.add('empty');
+        }
+      };
+
+      setField('modal-tipo-ato', item.tipo_ato);
+      setField('modal-numero-ato', item.numero_ato);
+      setField('modal-ano-ato', item.ano_ato);
+      setField('modal-data-inicio', fmtDate(item.data_inicio));
+      setField('modal-data-fim', item.data_fim ? fmtDate(item.data_fim) : null);
+
+      const copyBtn = document.getElementById('btn-copy');
+      copyBtn.innerHTML = `
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        Copiar código NCM`;
+      copyBtn.classList.remove('copied');
+
+      const overlay = document.getElementById('modal-overlay');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('modal-close').focus();
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById('modal-overlay');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      currentNCM = null;
+    }
+
+    function copyNCM() {
+      if (!currentNCM) return;
+      navigator.clipboard.writeText(currentNCM.codigo).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.classList.add('copied');
+        btn.innerHTML = `
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Copiado!`;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = `
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copiar código NCM`;
+        }, 2000);
+      });
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('btn-modal-close').addEventListener('click', closeModal);
+    document.getElementById('btn-copy').addEventListener('click', copyNCM);
+
+    document.getElementById('modal-overlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    /* ─── TABLE ─── */
     function renderTable() {
       const q = document.getElementById('search').value.trim();
       const start = (currentPage - 1) * PER_PAGE;
@@ -426,13 +729,15 @@
         return;
       }
 
-      const rows = slice.map(item => `
-        <tr>
+      const rows = slice.map((item, idx) => {
+        const globalIdx = start + idx;
+        return `
+        <tr onclick="openModal(window.__ncmFiltered[${globalIdx}])" title="Ver detalhes do NCM ${item.codigo}">
           <td class="td-code">${hl(item.codigo, q)}</td>
           <td class="td-desc">${hl(item.descricao, q)}</td>
           <td class="td-ato">${item.tipo_ato ? `${item.tipo_ato} ${item.numero_ato}/${item.ano_ato}` : '—'}</td>
-        </tr>
-      `).join('');
+        </tr>`;
+      }).join('');
 
       content.innerHTML = `
         <div class="table-wrap">
@@ -448,6 +753,7 @@
           </table>
         </div>`;
 
+      window.__ncmFiltered = filtered;
       renderPagination();
     }
 
@@ -482,10 +788,20 @@
     }
 
     function doFilter() {
-      const q = document.getElementById('search').value.trim().toLowerCase();
-      filtered = q
-        ? allNCMs.filter(i => i.codigo.includes(q) || i.descricao.toLowerCase().includes(q))
-        : [...allNCMs];
+      const raw = document.getElementById('search').value.trim();
+      const q = raw.toLowerCase();
+
+      if (!q) {
+        filtered = [...allNCMs];
+      } else {
+        const isNumericQuery = /^\d+$/.test(raw);
+        if (isNumericQuery) {
+          filtered = allNCMs.filter(i => i.codigo.includes(raw));
+        } else {
+          filtered = allNCMs.filter(i => i.descricao.toLowerCase().includes(q));
+        }
+      }
+
       currentPage = 1;
       renderTable();
     }
@@ -496,8 +812,9 @@
         if (!res.ok) throw new Error('Arquivo não encontrado');
         const data = await res.json();
 
-        allNCMs = data.ncms || [];
+        allNCMs = (data.ncms || []).filter(i => isValid8Digit(i.codigo));
         filtered = [...allNCMs];
+        window.__ncmFiltered = filtered;
 
         document.getElementById('meta-total').textContent = allNCMs.length.toLocaleString('pt-BR');
         document.getElementById('meta-date').textContent = fmt(data.ultima_atualizacao);
